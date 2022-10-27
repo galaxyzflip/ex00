@@ -13,5 +13,44 @@
 			select * from tbl_board where bno > 0
 		]]>
 	</select>
+	
+	
+	<insert id="insert">
+		insert into tbl_board(bno, title, content, writer)
+		values(seq_board.nextval, #{title}, #{content}, #{writer})
+	</insert>
+	
+	<insert id="insertSelectKey">
+	
+		<selectKey keyProperty="bno" order="BEFORE"	resultType="long">
+			select seq_board.nextval from dual
+		</selectKey>
+		
+		insert into tbl_board (bno, title, content, writer)
+		values(#{bno}, #{title}, #{content}, #{writer})
+		<!-- 시퀀스가 아닌 #{bno}로 되어있는데 @SelectKey라는 Mybatis 어노테이션을 이용하였다. -->
+		<!-- PK값을 미리 "bno"로 받아놓고 insert 쿼리에서 사용하였다... -->
+	
+	</insert>
+	
+	<select id="read" resultType="org.zerock.domain.BoardVO">
+		select * from tbl_board where bno = #{bno}
+	</select>
+	
+	<delete id="delete">
+		delete from tbl_board where bno = #{bno}
+	
+	</delete>
+	
+	<update id="update">
+		update tbl_board 
+		
+		set title=#{title}, 
+		content=#{content},
+		writer = #{writer},
+		updatedate = sysdate
+		
+		where bno = #{bno}
+	</update>
 
 </mapper>
