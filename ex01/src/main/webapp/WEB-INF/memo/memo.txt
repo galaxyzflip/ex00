@@ -1,0 +1,214 @@
+1. 스프링 프로젝트 구동
+
+스프링 프로젝트 구동시 관여하는 xml은
+web.xml - Tomcat 구동 관련 설정
+
+root-context.xml - 스프링 관련된 설정
+servlet-context.xml -스프링 관련된 설정(web)
+
+
+프로젝트의 구동은 web.xml에서 시작되는데 상단에는 가장 먼저 구동되는
+Context Listener가 등록되어있음
+
+context-param에는 root-context.xml의 경로가 설정
+<listener>에는 스프링 mvc의 ContextLoaderListener가 등록되어있는것을 볼 수 있다.
+
+
+root-context.xml이 처리되면 파일에 있는 bean 설정들이 동작하게 된다. (빈 생성)
+
+예시)
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+</bean>
+	
+root-context.xml에 정의된 Bean 들은 스프링의 영역(context)안에 생성되고 객체간 의존성이 처리된다.
+root-context.xml이 처리된 이후에는 스프링 mvc에서 사용되는 DispatcherServlet과 관련된 설정이 동작한다.
+	
+DispatcherServlet에서 XmlWebApplicationContext를 이용해서 servlet-context.xml을 로딩하고 해석한다.
+이 과정에서 등록된 객체들은 기존에 만들어진 객체들과 같이 연동된다.
+(servlet-context.xml에 등록된 bean들)
+
+
+
+web.xml - <Context Listener> - root-context.xml - (빈처리 및 스프링 context에 저장) - DispatcherServlet 동작
+ - XmlWebApplicationContext 이용해 servlet-context.xml 로딩, 해석(+ 빈처리, 기존 객체들과 연동)
+ 
+ 
+ 
+ 
+ 
+
+	
+MVC 컨트롤러
+
+@Controller Annotation을 작성해준다.
+ > servlet-context.xml 내 
+ <context:component-scan base-package="org.zerock.controller" /> (패키지명)
+ 태그를 작성해주면 자동으로 @Controller 어노테이션이 붙은 클래스들을 자동스캔한다.
+ 
+ @RequestMapping Annotation
+ @RequestMapping("/sample") 을 붙이면 ...[프로젝트명]/sample 로 url 요청시 동작하게 된다.
+ 클래스나 메소드에 붙여서 사용한다.
+ 메소드의 리턴타입이 void일 경우 /sample 가 뷰 객체이름이 된다.
+ 
+ 
+ @GetMapping("/ex1") == @RequestMapping(value = "/ex1", method = RequestMethod.GET)
+ @PostMapping 도 동일
+좀 더 짧게 쓸 수 있음
+	
+@RequestParam Annotation
+파라미터로 사용된 변수의 이름과 전달되는 파라미터의 이름이 다른 경우 유용하게 사용
+
+@GetMapping("/ex02")
+	public String ex02(@RequestParam("lastname") String name, @RequestParam("age") int age) {
+
+		log.info("lastname : " + lastname);
+		log.info("age : " + age);
+
+		return "ex02";
+
+	}
+파라미터로 받은 String name을 @RequestParam("lastname") 의 lastname으로 사용할 수 있다.
+	
+
+
+@GetMapping("/ex02List")
+	public String ex02List(@RequestParam("ids") ArrayList<String> ids) {
+		log.info("ids :" + ids);
+		return "ex02List";
+	}
+	
+ids 는 ArrayList 객체이기 때문에 파라미터 전달시 ...?ids=111&ids=222 식으로 파라미터를 전달받을 수 있다.
+
+
+@DateTimeFormat
+
+DTO 클래스의 Date 멤버에 @DateTimeFormat(pattern = "yyyy-MM-dd") 어노테이션을 작성하면
+pettern 형식으로 전달된 String 파라미터를 Date 형식으로 변환할 수 있다.
+@InitBinder 로도 사용할 수 있지만 위가 더 짧음...
+
+
+@ModelAttribute Annotation
+
+@RequestParam 과 비슷하지만 @ModelAttribute를 사용하면 view로 전달할 수 있다.
+
+@GetMapping("/ex04")
+	public String ex04(SampleDTO dto, @ModelAttribute("page") int page) {
+
+		log.info("dto : " + dto);
+		log.info("page : " + page);
+
+		return "/sample/ex04";
+	}
+@ModelAttribute page를 /sample/ex04 뷰에서 바로 사용할 수 있음
+model.addAttribute("page", page)
+ModelAndView.addObject("page", page)와 동일한듯...
+
+
+
+josn 형식으로 보내기
+@GetMapping("/ex06")
+	public @ResponseBody SampleDTO ex06() {
+		log.info("/ex06...........");
+		SampleDTO dto = new SampleDTO();
+		dto.setAge(10);
+		dto.setName("홍길동");
+
+		return dto;
+	}
+	
+pom.xml 에 dependency 추가해야함
+<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.4</version>
+		</dependency>
+		
+		
+		
+파일 업로드
+
+pom.xml 에 추가해야함
+
+	<!-- 파일 업로드를 위한 설정 -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+		
+servlet-conext.xml
+
+<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+	<beans:property name="defaultEncoding" value="utf-8"/>
+	<!-- 10MB -->
+	<beans:property name="maxUploadSize" value="104857560"></beans:property>
+	<!-- 2MB -->
+	<beans:property name="maxUploadSizePerFile" value="2097152"></beans:property>
+	<beans:property name="uploadTempDir" value="file:/C:/upload/tmp"></beans:property>
+	<beans:property name="maxInMemorySize" value="10485756"></beans:property>
+
+</beans:bean>	
+
+
+
+Controller의 Exception 처리...
+
+@ControllerAdvice Annotation
+	
+
+클래스
+
+package org.zerock.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.NoHandlerFoundException;
+
+import lombok.extern.log4j.Log4j;
+
+
+@ControllerAdvice //컨트롤러에서 발생하는 예외를 처리하는 존재임을 명시하는 용도
+@Log4j //로그기록용
+public class CommonExceptionAdvice {
+
+
+	//exception 발생시
+	@ExceptionHandler(Exception.class) //해당 메서드가 ()에 들어가는 예외 타입을 처리한다.
+	public String except(Exception ex, Model model) {
+		log.error("Exception........" + ex.getMessage());
+		model.addAttribute("exception", ex); // error_page.jsp 에서 exception 사용할수있음
+		log.error(model);
+		return "error_page"; //문자열이므로 jsp 파이르이 경로가 된다. error_page.jsp
+	}
+	
+	
+	//view 객체 못찾을때
+	@ExceptionHandler(NoHandlerFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public String handler404(NoHandlerFoundException ex) {
+		return "custom404"; // view 객체이름
+	}
+}
+
+	
+servlet-context.xml
+
+<!-- 해당 패키지 내 @ControllerAcvice 클래스를 탐색 -->
+	<context:component-scan base-package="org.zerock.exception"/>
+	
+
+error_page.jsp 일부
+
+<ul>
+	<c:forEach items="${exception.getStackTrace() }" var="stack">
+		<li><c:out value="${stack }"></c:out></li>
+	</c:forEach>
+</ul>
+	
+	
+	

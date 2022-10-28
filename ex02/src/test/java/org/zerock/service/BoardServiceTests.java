@@ -19,21 +19,50 @@ public class BoardServiceTests {
 
 	@Setter(onMethod_ = @Autowired)
 	private BoardService service;
-	
-	/*
-	 * @Test public void testExist() { log.info(service); assertNotNull(service); }
-	 * 
-	 * @Test public void testRegister() { BoardVO board = new BoardVO();
-	 * board.setTitle("새로 작성하는 글"); board.setContent("새로 작성하는 내용");
-	 * board.setWriter("newbie");
-	 * 
-	 * service.register(board);
-	 * 
-	 * log.info("생성된 게시물의 번호 : " + board.getBno()); }
-	 */
+
+//	@Test
+//	public void testExist() {
+//		log.info(service);
+//		assertNotNull(service);
+//	}
+//
+//	@Test
+//	public void testRegister() {
+//		BoardVO board = new BoardVO();
+//		board.setTitle("새로 작성하는 글");
+//		board.setContent("새로 작성하는 내용");
+//		board.setWriter("newbie");
+//
+//		service.register(board);
+//
+//		log.info("생성된 게시물의 번호 : " + board.getBno());
+//	}
+//
+//	@Test
+//	public void TestGetList() {
+//		service.getList().forEach(board -> log.info(board));
+//	}
+
+//	@Test
+//	public void testGet() {
+//		log.info(service.get(1L));
+//	}
 	
 	@Test
-	public void TestGetList() {
-		service.getList().forEach(board -> log.info(board));
+	public void testDelete() {
+		log.info("remove result: " + service.remove(2L));
 	}
+	
+	@Test
+	public void testUpdate() {
+		BoardVO board = service.get(1L);
+		if(board == null) {
+			return ;
+		}
+		
+		board.setTitle("제목을 수정합니다");
+		log.info("modify result:" + service.modify(board));
+	}
+	
+
 }
