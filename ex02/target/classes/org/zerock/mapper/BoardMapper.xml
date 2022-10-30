@@ -54,5 +54,91 @@
 		
 		where bno = #{bno}
 	</update>
+	
+	
+	<select id="getListwithPaging" resultType="org.zerock.domain.BoardVO">
+	<![CDATA[
+	
+		select
+			bno, title, content, writer, regdate, updatedate
+		from
+			(
+				select /*+index_desc(tbl_board pk_board) */
+					rownum rn, bno, title, content, writer, regdate, updatedate
+				from
+					tbl_board
+				where
+	]]>
+	
+		<include refid="criteria"></include>
+		
+	
+		<![CDATA[
+				 rownum <= #{pageNum} * #{amount}
+			)
+		where rn > (#{pageNum} - 1) * #{amount}
+		]]>
+	
+	
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(1) 
+		from tbl_board 
+		where 
+			<include refid="criteria"></include>
+		bno > 0
+	</select>
+	
+	
+	
+	
+	<!-- 2번 이상 사용할 쿼리 일부를 작성해놓고 필요할때 가져다씀 -->
+	<sql id="criteria">
+	
+		<trim prefix="(" suffix=") and " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				
+				
+				<trim prefix="or">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						
+						<when test="type == 'W'.toString()">
+							writer like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				
+				
+				</trim>
+			</foreach>
+		</trim> 
+	
+	</sql>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>
