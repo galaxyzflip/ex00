@@ -18,8 +18,10 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class BoardServiceTests {
 
-	@Setter(onMethod_ = @Autowired)
+	@Setter(onMethod_ = @Autowired) 
 	private BoardService service;
+	//해당 타입을 찾는다. BoardService를 구현한 클래스까지 찾는다. BoardService는 인터페이스이고 구현체인 Impl 클래스(@Service)의 객체가 컨테이너에 등록되어있음
+	//도 
 
 //	@Test
 //	public void testExist() {
@@ -27,23 +29,25 @@ public class BoardServiceTests {
 //		assertNotNull(service);
 //	}
 //
-//	@Test
-//	public void testRegister() {
-//		BoardVO board = new BoardVO();
-//		board.setTitle("새로 작성하는 글");
-//		board.setContent("새로 작성하는 내용");
-//		board.setWriter("newbie");
-//
-//		service.register(board);
-//
-//		log.info("생성된 게시물의 번호 : " + board.getBno());
-//	}
-//
 	@Test
-	public void TestGetList() {
-//		service.getList().forEach(board -> log.info(board));
-		service.getList(new Criteria(2, 10)).forEach(board -> log.info(board));
+	public void testRegister() {
+		BoardVO board = new BoardVO();
+		board.setTitle("새로 작성하는 글");
+		board.setContent("새로 작성하는 내용");
+		board.setWriter("newbie");
+
+		service.register(board);
+
+		log.info("생성된 게시물의 번호 : " + board.getBno());
 	}
+//
+
+	
+//	@Test
+//	public void TestGetList() {
+//
+//		service.getList(new Criteria(2, 10)).forEach(board -> log.info(board));
+//	}
 	
 	
 

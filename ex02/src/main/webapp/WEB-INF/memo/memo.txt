@@ -1,2 +1,18 @@
 DB
 
+DB 조회된 결과 로그
+
+log4jdbc.log4j2.properties
+
+root-context.xml 
+<property name="driverClassName"
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+		<property name="jdbcUrl"
+			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE" />
+			
+에 의해 출력됨
+
+
+
+@Service Annotation
+계층 구조상 비즈니스영역을 담당하는 객체임을 표시하기위해 사용
