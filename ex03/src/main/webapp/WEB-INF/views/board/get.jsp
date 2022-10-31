@@ -86,7 +86,10 @@
 
 </body>
 
-<script type="text/javascript">
+<script type="text/javascript" src="/resources/js/reply.js">
+
+	
+	
 
 	$(document).ready(function(){
 	
@@ -106,6 +109,14 @@
 		})
 		
 	})
+
+</script>
+
+<script>
+
+	$(document).ready(function(){
+		console.log(replyService);		
+	});
 
 </script>
 

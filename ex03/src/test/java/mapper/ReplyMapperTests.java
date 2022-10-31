@@ -1,5 +1,7 @@
 package mapper;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.util.List;
 
 import org.junit.Test;
@@ -22,7 +24,7 @@ public class ReplyMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private ReplyMapper mapper;
 
-	private Long[] bnoArr = { 4194307L, 4194306L, 4194305L, 4194304L, 4194303L };
+	private Long[] bnoArr = { 10L, 17L, 18L, 19L, 20L };
 
 	/*
 	 * @Test public void testMapper() { log.info(mapper);
@@ -31,8 +33,8 @@ public class ReplyMapperTests {
 	 */
 
 	/*
-	 * @Test public void testCreate() { IntStream.rangeClosed(1, 10).forEach(i ->{
-	 * ReplyVO vo = new ReplyVO(); vo.setBno(bnoArr[i % 5]); vo.setReply("댓글 테스트 " +
+	 * @Test public void testCreate() { IntStream.rangeClosed(1, 10).forEach(i -> {
+	 * ReplyVO vo = new ReplyVO(); vo.setBno(bnoArr[i % 5]); vo.setReply("댓글작성테스트" +
 	 * i); vo.setReplyer("replyer" + i);
 	 * 
 	 * mapper.insert(vo);
@@ -67,15 +69,13 @@ public class ReplyMapperTests {
 	 * 
 	 * log.info("update count: sss" + count); }
 	 */
-	
-	
-	@Test
-	public void testList() {
-		Criteria cri = new Criteria();
-		List<ReplyVO> replies = mapper.getListWithPaging(cri, 4194306L);
-		
-		replies.forEach(reply -> log.info(reply));
-		
-	}
 
+	
+	  @Test public void testList() { Criteria cri = new Criteria(); List<ReplyVO>
+	  replies = mapper.getListWithPaging(cri, 10L);
+	  
+	  replies.forEach(reply -> log.info(reply));
+	  
+	  }
+	 
 }

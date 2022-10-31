@@ -188,6 +188,22 @@
 		</dependency>
 
 
+		<!-- json 출력시 필요 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.4</version>
+		</dependency>
+
+
+		<!-- xml 출력에 필요 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>2.9.4</version>
+		</dependency>
+
+
 
 
 		<!-- Test -->

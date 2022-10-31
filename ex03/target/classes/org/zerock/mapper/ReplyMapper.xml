@@ -9,29 +9,29 @@
 
 	<!-- id는 Mapper 인터페이스의 메소드명과 동일하게 -->
 	<insert id="insert">
-	
 		insert into tbl_reply(rno, bno, reply, replyer)
 		values(seq_reply.nextval, #{bno}, #{reply}, #{replyer})
-	
 	</insert>
+	<!-- 리턴값 1, 다중 insert도 마찬가지 -->
 	
 	
 	<select id="read" resultType="org.zerock.domain.ReplyVO">
 		select * from tbl_reply where rno = ${rno}
-	
 	</select>
+	<!-- 리턴값 select 결과 -->
 	
 	<delete id="delete">
 		delete from tbl_reply where rno = #{rno}
 	</delete>
+	<!-- 리턴값 delete된 행의 개수 없으면 0 -->
 
 
 	<update id="update">
-	
 		update tbl_reply set reply = #{reply}, updatedate = sysdate
 		where rno = #{rno}
 	</update>
 	<!-- $는 ''없이 #은 ''포함 문자열 $로 하면 오류...-->
+	<!-- 리턴값 update된 행의 개수, 없으면 0 -->
 	
 	
 	<select id="getListWithPaging" resultType="org.zerock.domain.ReplyVO">

@@ -1,5 +1,4 @@
-377
-
+404
 create table tbl_reply(
 rno number(10, 0),
 bno number(10, 0) not null,
