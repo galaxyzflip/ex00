@@ -136,7 +136,7 @@
 							
 							<div class="modal-body">처리가 완료되었습니다.</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="model">Close</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 								<button type="button" class="btn btn-primary">Save changes</button>
 							</div>	
 							
@@ -157,12 +157,16 @@
 <!-- /.row -->
 
 <script type="text/javascript">
+
+/* ready는 문서(dom)가 준비되면 매개변수로 넣은 콜백 함수를 실행하라는 의미  */
 $(document).ready(function(){
 	var result = '<c:out value="${result}"/>';
 	
 	checkModal(result);
 	
 	history.replaceState({}, null, null);
+	//modal창을 보여준 후에는 모달창이 필요하지 않다는 표시
+	//checkModal 메소드 실행 후 처리됨
 	
 	function checkModal(result){
 		if(result === '' || history.state){
@@ -176,10 +180,11 @@ $(document).ready(function(){
 		$("#myModal").modal("show");
 	}
 	
+	
+		
 		$("#regBtn").on("click", function(){
 			self.location = "/board/register";
 		});
-	
 		
 		
 		

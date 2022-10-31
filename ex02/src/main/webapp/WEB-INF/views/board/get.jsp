@@ -90,6 +90,8 @@
 
 	$(document).ready(function(){
 	
+		/* button 클릭시 처리 정의, action속성의 값을 /board/modify, /board/list 로 처리 */
+		
 		var operForm = $("#operForm");
 		
 		$("button[data-oper='modify']").on("click", function(e){
@@ -103,7 +105,7 @@
 			operForm.attr("action", "/board/list");
 			operForm.submit();
 			
-		})
+		});
 		
 	})
 

@@ -52,8 +52,11 @@ public class BoardController {
 		
 		rttr.addFlashAttribute("result", board.getBno()); 
 		//등록작업이 끝난 후 다시 목록화면으로 돌아가는데 그때 새로 등록된 게시물의 번호(bno)를 같이 전달하기 위함..
+		//list.jsp에서 modal로 등록된 글번호 보여줌
 		
 		return "redirect:/board/list";
+		//forward 하면 안됨 url이 남아있어 같은 요청이 다시 들어갈 수 있음
+		//동일한 내용을 전송할 수 없도록 URL을 이동하는 방식을 이용해야함 (등록, 수정, 삭제 작업 후)
 	}
 	
 	
@@ -75,6 +78,7 @@ public class BoardController {
 		rttr.addAttribute("amount", cri.getAmount());
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
+		//rttr은 일회성으로만 데이터를 전달함, redirect 처리하지만 뷰로 보내줘야할 데이터가 있을 경우 사용한다.
 		
 		return "redirect:/board/list";
 	}
