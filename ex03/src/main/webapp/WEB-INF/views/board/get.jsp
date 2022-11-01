@@ -93,7 +93,9 @@
 		<div clas="panel panel-default">
 			<div class="panel-heading">
 				<i class="fa fa-comments fa-fw"></i> Reply
+				<button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New Reply</button>
 			</div>
+			
 		</div>
 		
 		<div class="panel-body">
@@ -119,7 +121,46 @@
 
 
 
-
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+            
+            	<div class="form-group">
+            		<label>Reply</label>
+            		<input class="form-control" name='reply' value='New Reply!!!'>
+            	</div>
+            	
+           		<div class="form-group">
+           			<label>Replyer</label>
+           			<input class="form-control" name='replyer' value='replyer'>
+           		</div>
+           		
+           		<div class="form-group">
+           			<lanel>ReplyDate</lanel>
+           			<input class="form-control" name='replyDate' value=''>
+           		</div>
+            	
+            </div>
+            <div class="modal-footer">
+            	
+            	<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
+            	<button id="modalRemoveBtn" type="button" class="btn btn-danger">Remove</button>
+            	<button id="modalCloseBtn" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            	<button id="modalClassBtn" type="button" class="btn btn-default" data-dismiss='modal'>Close</button>
+            
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 
 </body>
@@ -149,6 +190,57 @@
 	})
 
 </script>
+
+<script type="text/JavaScript" src="resources/js/reply.js"></script>
+<script>
+
+$(document).ready(function(){
+
+	var bnoValue = '<c:out value="${board.bno}"/>';
+	var replyUL = $(".char");
+	
+	showList(1);
+	
+	function showList(page){
+		replyService.getList({bno:bnoValue, page:page||1}, function(list){
+			
+			var str="";
+			if(list == null || list.length == 0){
+				replyUL.html("");
+				return;
+			}
+			
+			for(var i=0, len=list.length || 0 ; i< len; i++){
+				str += "<li class='left clearfix' data-rno='" + list[i].rno + "'>";
+				str += " <div><div class='header'><strong class='primary-font'>" + list[i].replyer + "</strong>";
+				str += "    <small class='pull-right test-muted'>" + replyService.displayTime(list.[i].replyDate) + "</small></div>";
+				str += "     <p>" + list[i].reply+ "</p></div></li>";
+			}
+			replyUL.html(str);
+			
+		}); // end function
+	
+	}//end showList
+	
+	var modal = $(".modal");
+	var modalInputReply = modal.find("input[name='reply']");
+	var modalInputReplyer = modal.find("input[name='replyer']");
+	var modalInputReplyDate = modal.fine("input[name='replyer']");
+	
+	var modalModBtn = $("#modalModBtn");
+	var modalRemoveBtn = $("#modalRemoveBtn");
+	var modalRegisterBtn = $("#modalRegisterBtn");
+	
+});
+
+
+</script>
+
+
+
+
+
+
 
 <script>
 
@@ -198,48 +290,6 @@
 	
 
 </script>
-
-<script type="text/JavaScript" src="resources/js/reply.js"></script>
-<script>
-
-$(document).ready(function(){
-
-	var bnoValue = '<c:out value="${board.bno}"/>';
-	var replyUL = $(".char");
-	
-	showList(1);
-	
-	function showList(page){
-		replyService.getList({bno:bnoValue, page:page||1}, function(list){
-			
-			var str="";
-			if(list == null || list.length == 0){
-				replyUL.html("");
-				return;
-			}
-			
-			for(var i=0, len=list.length || 0 ; i< len; i++){
-				str += "<li class='left clearfix' data-rno='" + list[i].rno + "'>";
-				str += " <div><div class='header'><strong class='primary-font'>" + list[i].replyer + "</strong>";
-				str += "    <small class='pull-right test-muted'>" + list.[i].replyDate + "</small></div>";
-				str += "     <p>" + list[i].reply+ "</p></div></li>";
-			}
-			replyUL.html(str);
-			
-		}); // end function
-	
-	}//end showList
-	
-});
-
-
-</script>
-
-
-
-
-
-
 
 
 
