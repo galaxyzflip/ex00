@@ -71,11 +71,24 @@ public class ReplyMapperTests {
 	 */
 
 	
-	  @Test public void testList() { Criteria cri = new Criteria(); List<ReplyVO>
-	  replies = mapper.getListWithPaging(cri, 10L);
-	  
-	  replies.forEach(reply -> log.info(reply));
-	  
-	  }
+	/*
+	 * @Test public void testList() { Criteria cri = new Criteria(); List<ReplyVO>
+	 * replies = mapper.getListWithPaging(cri, 10L);
+	 * 
+	 * replies.forEach(reply -> log.info(reply));
+	 * 
+	 * }
+	 */
+	
+	/*
+	 * @Test public void testList2() { Criteria cri = new Criteria(1, 10);
+	 * List<ReplyVO> replies = mapper.getListWithPaging(cri, 6291452L);
+	 * replies.forEach(reply -> log.info(reply)); }
+	 */
+	
+	@Test
+	public void testGetCount() {
+		log.info(mapper.getCountByBno(6291452L));
+	}
 	 
 }

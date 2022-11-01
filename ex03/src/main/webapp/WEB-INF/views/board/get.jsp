@@ -92,9 +92,9 @@
 	
 		<div clas="panel panel-default">
 			<div class="panel-heading">
-				<i class="fa fa-comments fa-fw"></i> Reply
-				<button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New Reply</button>
-			</div>
+	        <i class="fa fa-comments fa-fw"></i> Reply
+	        <button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New Reply</button>
+      </div>   
 			
 		</div>
 		
@@ -148,9 +148,9 @@
 				</div>
 				<div class="modal-footer">
 					<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
-					<button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
-					<button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
-					<button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
+			        <button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
+			        <button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
+			        <button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -163,13 +163,7 @@
 </body>
 
 
-
-
-
-
-</html>
-
-
+<script type="text/javascript" src="/resources/js/reply.js"></script>
 
 
 <script>
@@ -190,12 +184,12 @@
 
 		});
 
+		
+		
+		
 	});
-</script>
 
-
-<script type="text/javascript" src="/resources/js/reply.js"></script>
-<script>
+	
 
 $(document).ready(function(){
 
@@ -225,61 +219,107 @@ $(document).ready(function(){
 	
 	}//end showList
 	
-
-	
 	//댓글등록 modal 시작
 
-	var modal = $(".modal");
-	var modalInputReply = modal.find("input[name='reply']");
-	var modalInputReplyer = modal.find("input[name='replyer']");
-	var modalInputReplyDate = modal.find("input[name='replyer']");
-
-	var modalModBtn = $("#modalModBtn");
-	var modalRemoveBtn = $("#modalRemoveBtn");
-	var modalRegisterBtn = $("#modalRegisterBtn");
-
-	$("#addReplyBtn").on("click", function(e){
-		
-		modal.find("input").val("");
-		modalInputReplyDate.closest("div").hide();
-		modal.find("button[id != 'modalCloseBtn']").hide();
-		
-		modalRegisterBtn.show();
-		
-		$(".modal").modal("show");
-	});
+    var modal = $(".modal");
+    var modalInputReply = modal.find("input[name='reply']");
+    var modalInputReplyer = modal.find("input[name='replyer']");
+    var modalInputReplyDate = modal.find("input[name='replyDate']");
+    
+    var modalModBtn = $("#modalModBtn");
+    var modalRemoveBtn = $("#modalRemoveBtn");
+    var modalRegisterBtn = $("#modalRegisterBtn");
+    
+    $("#modalCloseBtn").on("click", function(e){
+    	
+    	modal.modal('hide');
+    });
+    
+    $("#addReplyBtn").on("click", function(e){
+      
+      modal.find("input").val("");
+      modalInputReplyDate.closest("div").hide();
+      modal.find("button[id !='modalCloseBtn']").hide();
+      
+      modalRegisterBtn.show();
+      
+      $(".modal").modal("show");
+      
+    });
 
 	//댓글등록 modal 끝
+	
+	
 
+	//댓글모달 버튼 클릭 이벤트 시작
+	modalRegisterBtn.on("click", function(e) {
 
-
-//댓글모달 버튼 클릭 이벤트 시작
-	modalRegisterBtn.on("click", function(e){
-		
 		var reply = {
-				reply : modalInputReply.val(),
-				replyer : modalInputReplyer.val(),
-				bno : bnoValue
+			reply : modalInputReply.val(),
+			replyer : modalInputReplyer.val(),
+			bno : bnoValue
 		};
-		
-		replyService.add(reply, function(result){
-			
+
+		replyService.add(reply, function(result) {
+
 			alert(result);
-			
+
 			modal.find("input").val("");
 			modal.modal("hide");
-			
+
 			showList(1);
 		});
 	});
 	//댓글모달 버튼 클릭 이벤트 끝
-
 	
+	$(".chat").on("click", "li", function(e){
+		var rno = $(this).data("rno");
+		
+		replyService.get(rno, function(reply){ //reply는 모델이라고 보면될듯... js의 callback
+			
+			modalInputReply.val(reply.reply);
+			modalInputReplyer.val(reply.replyer);
+			modalInputReplyDate.val(replyService.displayTime(reply.replyDate))
+			.attr("readonly", "readonly");
+			modal.data("rno", reply.rno);
+			
+			modal.find("button[id != 'modalCloseBtn']").hide(); //필요없는 버튼 숨기기
+			modalModBtn.show();
+			modalRemoveBtn.show();
+			
+			$(".modal").modal("show");
+		});
+	});
+	
+	
+	modalModBtn.on("click", function(e){
+		
+		var reply = {rno:modal.data("rno"), reply:modalInputReply.val()}; 
+		//json 데이터 만들기 modal.data 는 오픈된 모달창의 데이터
+		
+		replyService.update(reply, function(result){ //reply.js 의 함수 실행
+			alert(result);
+			modal.modal("hide");
+			showList(1);
+		});
+	});
+	
+	modalRemoveBtn.on("click", function(e){
+		
+		var rno = modal.data("rno");
+		
+		replyService.remove(rno, function(result){
+			
+			alert(result);
+			modal.modal("hide");
+			showList(1);
+		});
+	});
+
 });
-
-
 </script>
 
 
 
 
+</html>

@@ -4,6 +4,8 @@ import java.util.Date;
 
 import lombok.Data;
 
+
+/** 댓글 1개의 VO*/
 @Data
 public class ReplyVO {
 

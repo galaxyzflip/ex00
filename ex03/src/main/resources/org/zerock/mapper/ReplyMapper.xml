@@ -36,14 +36,29 @@
 	
 	<select id="getListWithPaging" resultType="org.zerock.domain.ReplyVO">
 	
-		select rno, bno, reply, replyer, replydate, updatedate
-		from tbl_reply
-		where bno = #{bno}
-		order by rno asc
-		
-		<!-- #{bno}는 Mapper인터페이스에서의 @Param("bno") -->
+		<![CDATA[
+			select rno, bno, reply, replyer, replydate, updatedate
+			from
+				(
+					select /*+ index(tbl_reply idx_reply) */
+						rownum rn, rno, bno, reply, replyer, replyDate, updatedate
+					from tbl_reply
+					where bno = #{bno}
+					and rno > 0
+					and rownum <= #{cri.pageNum} * #{cri.amount}
+				) where rn > (#{cri.pageNum} - 1) * #{cri.amount}
+		]]>
 	
 	</select>
+	
+	<select id="getCountByBno" resultType="int">
+	
+	<![CDATA[
+		select count(1) from tbl_reply where bno = #{bno}
+	
+	]]>
+	</select>
+	
 
 </mapper>
 	

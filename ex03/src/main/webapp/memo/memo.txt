@@ -1,4 +1,5 @@
-404
+435
+
 create table tbl_reply(
 rno number(10, 0),
 bno number(10, 0) not null,
@@ -15,3 +16,4 @@ alter table tbl_reply add constraint fk_reply_board foreign key(bno) REFERENCES 
 
 
 
+create index idx_reply on tbl_reply (bno desc, rno asc);
