@@ -121,74 +121,76 @@
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Reply Modal</h4>
-            </div>
-            <div class="modal-body">
-            
-            	<div class="form-group">
-            		<label>Reply</label>
-            		<input class="form-control" name='reply' value='New Reply!!!'>
-            	</div>
-            	
-           		<div class="form-group">
-           			<label>Replyer</label>
-           			<input class="form-control" name='replyer' value='replyer'>
-           		</div>
-           		
-           		<div class="form-group">
-           			<lanel>ReplyDate</lanel>
-           			<input class="form-control" name='replyDate' value=''>
-           		</div>
-            	
-            </div>
-            <div class="modal-footer">
-            	
-            	<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
-            	<button id="modalRemoveBtn" type="button" class="btn btn-danger">Remove</button>
-            	<button id="modalCloseBtn" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            	<button id="modalClassBtn" type="button" class="btn btn-default" data-dismiss='modal'>Close</button>
-            
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">REPLY MODAL</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Reply</label> <input class="form-control" name='reply'
+							value='New Reply!!!!'>
+					</div>
+					<div class="form-group">
+						<label>Replyer</label> <input class="form-control" name='replyer'
+							value='replyer'>
+					</div>
+					<div class="form-group">
+						<label>Reply Date</label> <input class="form-control"
+							name='replyDate' value='2018-01-01 13:13'>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
+					<button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
+					<button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
+					<button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
 
 
 </body>
 
-<script type="text/javascript" src="/resources/js/reply.js">
 
-	
-	
 
-	$(document).ready(function(){
-	
+
+
+
+</html>
+
+
+
+
+<script>
+	$(document).ready(function() {
+
 		var operForm = $("#operForm");
-		
-		$("button[data-oper='modify']").on("click", function(e){
-			
+
+		$("button[data-oper='modify']").on("click", function(e) {
+
 			operForm.attr("action", "/board/modify").submit();
 		});
-		
-		$("button[data-oper='list']").on("click", function(e){
-			
+
+		$("button[data-oper='list']").on("click", function(e) {
+
 			operForm.find('#bno').remove();
 			operForm.attr("action", "/board/list");
 			operForm.submit();
-			
-		});
-		
-	});
 
+		});
+
+	});
 </script>
 
 
@@ -223,18 +225,19 @@ $(document).ready(function(){
 	
 	}//end showList
 	
+
 	
 	//댓글등록 modal 시작
-	
+
 	var modal = $(".modal");
 	var modalInputReply = modal.find("input[name='reply']");
 	var modalInputReplyer = modal.find("input[name='replyer']");
 	var modalInputReplyDate = modal.find("input[name='replyer']");
-	
+
 	var modalModBtn = $("#modalModBtn");
 	var modalRemoveBtn = $("#modalRemoveBtn");
 	var modalRegisterBtn = $("#modalRegisterBtn");
-	
+
 	$("#addReplyBtn").on("click", function(e){
 		
 		modal.find("input").val("");
@@ -245,11 +248,12 @@ $(document).ready(function(){
 		
 		$(".modal").modal("show");
 	});
-	
+
 	//댓글등록 modal 끝
-	
-	
- 	//댓글모달 버튼 클릭 이벤트 시작
+
+
+
+//댓글모달 버튼 클릭 이벤트 시작
 	modalRegisterBtn.on("click", function(e){
 		
 		var reply = {
@@ -269,75 +273,12 @@ $(document).ready(function(){
 		});
 	});
 	//댓글모달 버튼 클릭 이벤트 끝
+
 	
 });
 
 
 </script>
-
-
-
-
-
-
-
-<script>
-
-	/* console.log("==========");
-	console.log("JS TEST");
-	
-	var bnoValue = '<c:out value="${board.bno}"/>';
-	
-	getList 테스트
-	 
-	
-	replyService.getList({bno:bnoValue,page:1 }, function(list){
-		
-		for(var i=0, len = list.length||0; i<len; i++){
-			console.log(list[i]);
-		}
-	});
-	
-	
-	delete 테스트
-	replyService.remove(16, function(count){
-		
-		console.log(count);
-		
-		if(count === "success"){
-			alert("REMOVE");
-		}
-		
-	}, function(err){
-		alert('ERROR.......');
-	});
-	
-	
-	
-	replyService.update({
-	
-		rno : 17, bno:bnoValue, reply:"modify reply....."}, 
-		
-		function(result){
-			alert("수정완료.,...");
-			
-	});
-	
-	replyService.get(10, function(data){
-		console.log(data);
-	}); */
-	
-
-</script>
-
-
-
-
-
-
-
-
-</html>
 
 
 

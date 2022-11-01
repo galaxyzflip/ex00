@@ -24,7 +24,7 @@ var replyService = (function(){
 				}
 			}
 			
-		})
+		});
 	}
 	
 	function getList(param, callback, error) {
