@@ -35,7 +35,7 @@
 			
 				<div class="form-group">
 					<label>Bno</label>
-					<input class="form/control" name="bno" value='<c:out value="${board.bno }"/>' readonly="readonly">
+					<input class="form-control" name="bno" value='<c:out value="${board.bno }"/>' readonly="readonly">
 				</div>
 				
 				<div class="form-group">
@@ -84,6 +84,44 @@
 <!-- /.row -->
 
 
+
+<!-- comment, 댓글 -->
+<div class="row">
+
+	<div class="col-lg-12">
+	
+		<div clas="panel panel-default">
+			<div class="panel-heading">
+				<i class="fa fa-comments fa-fw"></i> Reply
+			</div>
+		</div>
+		
+		<div class="panel-body">
+			<ul class="chat">
+				<!-- start reply -->
+				<li class="left clearfix" data-rno="12">
+					<div>
+						<div class="header">
+							<strong class="primary-font">user00</strong>
+							<small class="pull-right test-muted">2020-01-01 13:13</small>
+						</div>
+					</div>
+				</li>
+				<!-- end reply -->
+			</ul>
+		
+		</div>
+		<!-- /.panel-body -->
+	
+	</div>
+
+</div>
+
+
+
+
+
+
 </body>
 
 <script type="text/javascript" src="/resources/js/reply.js">
@@ -114,24 +152,28 @@
 
 <script>
 
-	console.log("==========");
+	/* console.log("==========");
 	console.log("JS TEST");
 	
-	/* var bnoValue = '<c:out value="${board.bno}"/>';
+	var bnoValue = '<c:out value="${board.bno}"/>';
+	
+	getList 테스트
+	 
 	
 	replyService.getList({bno:bnoValue,page:1 }, function(list){
 		
 		for(var i=0, len = list.length||0; i<len; i++){
 			console.log(list[i]);
 		}
-	}); */
+	});
 	
 	
-	replyService.remove(23, function(count){
+	delete 테스트
+	replyService.remove(16, function(count){
 		
 		console.log(count);
 		
-		if(count === "seccess"){
+		if(count === "success"){
 			alert("REMOVE");
 		}
 		
@@ -140,8 +182,66 @@
 	});
 	
 	
+	
+	replyService.update({
+	
+		rno : 17, bno:bnoValue, reply:"modify reply....."}, 
+		
+		function(result){
+			alert("수정완료.,...");
+			
+	});
+	
+	replyService.get(10, function(data){
+		console.log(data);
+	}); */
+	
 
 </script>
+
+<script type="text/JavaScript" src="resources/js/reply.js"></script>
+<script>
+
+$(document).ready(function(){
+
+	var bnoValue = '<c:out value="${board.bno}"/>';
+	var replyUL = $(".char");
+	
+	showList(1);
+	
+	function showList(page){
+		replyService.getList({bno:bnoValue, page:page||1}, function(list){
+			
+			var str="";
+			if(list == null || list.length == 0){
+				replyUL.html("");
+				return;
+			}
+			
+			for(var i=0, len=list.length || 0 ; i< len; i++){
+				str += "<li class='left clearfix' data-rno='" + list[i].rno + "'>";
+				str += " <div><div class='header'><strong class='primary-font'>" + list[i].replyer + "</strong>";
+				str += "    <small class='pull-right test-muted'>" + list.[i].replyDate + "</small></div>";
+				str += "     <p>" + list[i].reply+ "</p></div></li>";
+			}
+			replyUL.html(str);
+			
+		}); // end function
+	
+	}//end showList
+	
+});
+
+
+</script>
+
+
+
+
+
+
+
+
 
 
 
