@@ -114,12 +114,42 @@
 
 <script>
 
-	$(document).ready(function(){
-		console.log(replyService);		
+	console.log("==========");
+	console.log("JS TEST");
+	
+	/* var bnoValue = '<c:out value="${board.bno}"/>';
+	
+	replyService.getList({bno:bnoValue,page:1 }, function(list){
+		
+		for(var i=0, len = list.length||0; i<len; i++){
+			console.log(list[i]);
+		}
+	}); */
+	
+	
+	replyService.remove(23, function(count){
+		
+		console.log(count);
+		
+		if(count === "seccess"){
+			alert("REMOVE");
+		}
+		
+	}, function(err){
+		alert('ERROR.......');
 	});
+	
+	
 
 </script>
 
 
 
+
+
+
 </html>
+
+
+
+

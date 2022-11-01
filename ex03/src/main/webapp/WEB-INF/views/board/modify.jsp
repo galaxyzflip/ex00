@@ -106,7 +106,7 @@
 		
 		$('button').on("click", function(e){
 			
-			e.preventDefault();
+			e.preventDefault(); //기본동작중지
 			
 			var operation = $(this).data("oper");
 			
@@ -118,6 +118,7 @@
 				//move to list
 				
 				formObj.attr("action", "/board/list").attr("method", "get");
+				
 				//필요한것들 복사해두기
 				var pageNumTag = $("input[name='pageNum']").clone();
 				var amountTag = $("input[name='amount']").clone();
