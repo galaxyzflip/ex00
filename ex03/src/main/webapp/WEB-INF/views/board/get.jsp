@@ -127,7 +127,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="myModalLabel">Reply Modal</h4>
             </div>
             <div class="modal-body">
             
@@ -185,19 +185,20 @@
 			operForm.attr("action", "/board/list");
 			operForm.submit();
 			
-		})
+		});
 		
-	})
+	});
 
 </script>
 
-<script type="text/JavaScript" src="resources/js/reply.js"></script>
+
+<script type="text/javascript" src="/resources/js/reply.js"></script>
 <script>
 
 $(document).ready(function(){
 
 	var bnoValue = '<c:out value="${board.bno}"/>';
-	var replyUL = $(".char");
+	var replyUL = $(".chat");
 	
 	showList(1);
 	
@@ -213,7 +214,7 @@ $(document).ready(function(){
 			for(var i=0, len=list.length || 0 ; i< len; i++){
 				str += "<li class='left clearfix' data-rno='" + list[i].rno + "'>";
 				str += " <div><div class='header'><strong class='primary-font'>" + list[i].replyer + "</strong>";
-				str += "    <small class='pull-right test-muted'>" + replyService.displayTime(list.[i].replyDate) + "</small></div>";
+				str += "    <small class='pull-right test-muted'>" + replyService.displayTime(list[i].replyDate) + "</small></div>";
 				str += "     <p>" + list[i].reply+ "</p></div></li>";
 			}
 			replyUL.html(str);
@@ -222,14 +223,52 @@ $(document).ready(function(){
 	
 	}//end showList
 	
+	
+	//댓글등록 modal 시작
+	
 	var modal = $(".modal");
 	var modalInputReply = modal.find("input[name='reply']");
 	var modalInputReplyer = modal.find("input[name='replyer']");
-	var modalInputReplyDate = modal.fine("input[name='replyer']");
+	var modalInputReplyDate = modal.find("input[name='replyer']");
 	
 	var modalModBtn = $("#modalModBtn");
 	var modalRemoveBtn = $("#modalRemoveBtn");
 	var modalRegisterBtn = $("#modalRegisterBtn");
+	
+	$("#addReplyBtn").on("click", function(e){
+		
+		modal.find("input").val("");
+		modalInputReplyDate.closest("div").hide();
+		modal.find("button[id != 'modalCloseBtn']").hide();
+		
+		modalRegisterBtn.show();
+		
+		$(".modal").modal("show");
+	});
+	
+	//댓글등록 modal 끝
+	
+	
+ 	//댓글모달 버튼 클릭 이벤트 시작
+	modalRegisterBtn.on("click", function(e){
+		
+		var reply = {
+				reply : modalInputReply.val(),
+				replyer : modalInputReplyer.val(),
+				bno : bnoValue
+		};
+		
+		replyService.add(reply, function(result){
+			
+			alert(result);
+			
+			modal.find("input").val("");
+			modal.modal("hide");
+			
+			showList(1);
+		});
+	});
+	//댓글모달 버튼 클릭 이벤트 끝
 	
 });
 
