@@ -57,11 +57,15 @@ public class BoardController {
 	}
 	
 	
-	@GetMapping({"/get", "/modify"})
-	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) { // bno파라미터값을 알맞게 Long 형으로 변환해준다. 파라미터가 없으면 400 에러 발생함...
+	@GetMapping({ "/get", "/modify" })
+	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("/get or modify");
 		model.addAttribute("board", service.get(bno));
 	}
+	 
+	
+	
+	
 	
 	@PostMapping("/modify")
 	public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {

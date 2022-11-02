@@ -45,8 +45,8 @@
 						<td><c:out value="${board.bno }"/></td>
 						
 						
-						<td><a class='move' href='/board/get?bno=<c:out value="${board.bno }"/>' >
-							<c:out value="${board.title}"/></a></td>
+						<%-- <td><a class='move' href='/board/get?bno=<c:out value="${board.bno }"/>' >
+							<c:out value="${board.title}"/></a></td> --%>
 							
 							
 						<td><a class='move' href='<c:out value="${board.bno }"/>' >
@@ -206,15 +206,16 @@ $(document).ready(function(){
 	
 	
 	
-	/* $(".move").on("click", function(e){
+	$(".move").on("click", function(e){
 		
 		e.preventDefault();
+		
 		
 		actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href") + "'>");
 		actionForm.attr("action", "/board/get");
 		actionForm.submit();
-		좆같은거 bno파라미터 url 뒤에 계속해서 붙음
-	}); */
+		//좆같은거 bno파라미터 url 뒤에 계속해서 붙음
+	}); 
 	
 	
 	//검색버튼 이벤트 처리

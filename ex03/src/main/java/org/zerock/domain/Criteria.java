@@ -12,6 +12,8 @@ import lombok.ToString;
 
 public class Criteria {
 
+	
+	final static int PAGE_PER_COUNT = 10;
 	private int pageNum;
 	private int amount;
 	
@@ -19,7 +21,7 @@ public class Criteria {
 	private String keyword;
 	
 	public Criteria() {
-		this(1, 10);
+		this(1, PAGE_PER_COUNT);
 	}
 
 	public Criteria(int pageNum, int amount) {
