@@ -390,7 +390,6 @@ $(document).ready(function(){
 	replyPageFooter.on("click", "li a", function(e){
 		
 		e.preventDefault();
-		console.log("page click ccscccccc");
 		
 		var targetPageNum = $(this).attr("href");
 		

@@ -120,9 +120,9 @@
 				<form id='actionForm' action="/board/list" method="get">
 					<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
 					<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+					<input type="hidden" name="type" value="${pageMaker.cri.type }">
+					<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
 				</form>
-				
-				
 				
 				
 				
@@ -168,6 +168,7 @@
 $(document).ready(function(){
 	var result = '<c:out value="${result}"/>';
 	
+	
 	checkModal(result);
 	
 	history.replaceState({}, null, null);
@@ -208,10 +209,14 @@ $(document).ready(function(){
 	
 	$(".move").on("click", function(e){
 		
+		
+		
 		e.preventDefault();
 		
+ 		actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href") + "'>");
 		
-		actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href") + "'>");
+		
+		
 		actionForm.attr("action", "/board/get");
 		actionForm.submit();
 		//좆같은거 bno파라미터 url 뒤에 계속해서 붙음
