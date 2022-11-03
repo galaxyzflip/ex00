@@ -14,25 +14,23 @@ import lombok.extern.log4j.Log4j;
 @ContextConfiguration("file:src\\main\\webapp\\WEB-INF\\spring\\root-context.xml")
 public class SampleServiceTests {
 
-	@Setter(onMethod_ =@Autowired)
+	@Setter(onMethod_ = @Autowired)
 	private SampleService service;
-	
-	/*
-	 * @Test public void testClass() { log.info(service);
-	 * log.info(service.getClass().getName()); }
-	 */
-	
-	
+
 	@Test
-	public void testAdd() throws Exception{
+	public void testClass() {
+		log.info(service);
+		log.info(service.getClass().getName());
+	}
+
+	@Test
+	public void testAdd() throws Exception {
 		log.info(service.doAdd("123", "456"));
 	}
 	
-	
-	
-	
-	
+	@Test
+	public void testAddError() throws Exception{
+		log.info(service.doAdd("123", "adf"));
+	}
+
 }
-
-
-
