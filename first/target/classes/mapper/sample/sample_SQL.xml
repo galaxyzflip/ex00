@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="sample">
+
+	<select id="selectBoardList" parameterType="HashMap" resultType="HashMap">
+		select idx, title, hit_cnt, crea_dtm
+		from tb_board
+		where del_gb = 'N'
+		order by idx desc	
+	</select>
+	
+	
+	<select id="selectBoardDetail" parameterType="HashMap" resultType="HashMap">
+	
+		select idx, hit_cnt, crea_id, crea_dtm, title, contents
+		from tb_board
+		where idx=#{IDX}
+	
+	
+	</select>
+	
+	<insert id="insertBoard" parameterType="HashMap">
+	
+		insert into tb_board(idx, title, contents, hit_cnt, del_gb, crea_dtm, Crea_id)
+		values(seq_tb_board_idx.nextval, #{TITLE}, #{CONTENTS}, 0, 'N', sysdate, 'Admin')
+	
+	
+	</insert>
+
+	<update id="updateHitCnt" parameterType="HashMap">
+	
+		update tb_board
+		set hit_Cnt = nvl(hit_cnt, 0) + 1
+		where idx = #{IDX}
+	
+	
+	</update>
+
+
+
+	<update id="updateBoard" parameterType="HashMap">
+	
+		update tb_board
+		set title=#{TITLE}, 
+		contents = #{CONTENTS}
+		
+		where idx = #{IDX}
+	
+	</update>
+	
+	<update id="deleteBoard" parameterType="HashMap">
+	
+		update tb_board
+		set del_gb = 'Y'
+		where idx = #{IDX}
+	
+	
+	</update>
+
+</mapper>
