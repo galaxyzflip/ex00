@@ -77,17 +77,20 @@
 
 			var id = $(this).attr("id");
 			
-			var comSubmit = new ComSubmit();
+			var comSubmit;
 			
 			if(id == 'list'){
+				comSubmit = new ComSubmit();
 				comSubmit.setUrl("<c:url value='/sample/openBoardList.do'/>");
 				comSubmit.submit();
 				
 			}else if(id == 'update'){
+				comSubmit = new ComSubmit("frm");
 				comSubmit.setUrl("<c:url value='/sample/updateBoard.do'/>");
 				comSubmit.submit();
 				
 			}else if(id == 'delete'){
+				comSubmit = new ComSubmit();
 				comSubmit.setUrl("<c:url value='/sample/deleteBoard.do'/>");
 				comSubmit.addParam("IDX", $("#IDX").val());
 				comSubmit.submit();
