@@ -37,6 +37,7 @@ public class ReplyController {
 	@PostMapping(value="/new", consumes="application/json", //json 타입과 일치할때만 요청을 매핑해줌 , 클아이언트가 서버에게 보내는 데이터 타입을 명시
 			produces= {MediaType.TEXT_PLAIN_VALUE}) //생산 가능한 미디어타입의 목록을 지정한다. 서버가 클라이언트에게 반환하는 데이터 타입을 명시
 	public ResponseEntity<String> create(@RequestBody ReplyVO vo){
+		//ResponseEntity - 응답 코드까지 보낼때 HttpStatus.* 같은것들
 		
 		log.info("ReplyVO : " + vo);
 		
@@ -65,19 +66,17 @@ public class ReplyController {
 		return new ResponseEntity<ReplyPageDTO>(service.getListPage(cri, bno), HttpStatus.OK);
 		
 	}
+
 	
-	
-	@GetMapping(value="/{rno}", 
-			produces = {MediaType.APPLICATION_XML_VALUE,
-						MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<ReplyVO> get(@PathVariable("rno") Long rno){
-		
+	@GetMapping(value = "/{rno}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<ReplyVO> get(@PathVariable("rno") Long rno) {
+
 		log.info("get:" + rno);
-		
+
 		return new ResponseEntity<ReplyVO>(service.get(rno), HttpStatus.OK);
-		
+
 	}
-	
+	 	
 	@DeleteMapping(value="/{rno}", produces= {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> remove(@PathVariable("rno") Long rno){
 		
