@@ -21,10 +21,23 @@
 	
 	</select>
 	
-	<insert id="insertBoard" parameterType="HashMap">
+	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
 	
+		select idx, original_file_name, round(file_size/1024,1) as file_size
+		from tb_file
+		where board_idx=#{IDX} and del_gb='N'
+	
+	</select>
+	
+	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
+	
+		<selectKey keyProperty="IDX" resultType="String" order="BEFORE">
+			SELECT SEQ_TB_BOARD_IDX.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		
 		insert into tb_board(idx, title, contents, hit_cnt, del_gb, crea_dtm, Crea_id)
-		values(seq_tb_board_idx.nextval, #{TITLE}, #{CONTENTS}, 0, 'N', sysdate, 'Admin')
+		values(#{IDX}, #{TITLE}, #{CONTENTS}, 0, 'N', sysdate, 'Admin')
 	
 	
 	</insert>
@@ -58,5 +71,12 @@
 	
 	
 	</update>
+	
+	<insert id="insertFile" parameterType="HashMap">
+	
+		insert into tb_file(idx, board_idx, original_file_name, stored_file_name, file_size, crea_id)
+		values(seq_tb_file_idx.nextval, #{BOARD_IDX}, #{ORIGINAL_FILE_NAME}, #{STORED_FILE_NAME}, #{FILE_SIZE}, 'Admin')
+	
+	</insert>
 
 </mapper>

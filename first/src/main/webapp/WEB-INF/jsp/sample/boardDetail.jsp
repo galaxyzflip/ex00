@@ -46,7 +46,22 @@
 		<tr>
 			<td colspan="4">${map.CONTENTS }</td>
 		</tr>		
+		
+		
+		<c:if test="${fn:length(list) > 0 }">
+			<tr>
+				<th scope="row">첨부파일</th>
+				<td colspan="3">
 	
+					<c:forEach var="row" items="${list }">
+						<input type="hidden" id="IDX" value="${row.IDX }">
+						<a href="#this" name="file">${row.ORIGINAL_FILE_NAME }</a> (${ros.FILE_SIZE }KB)
+					
+					</c:forEach>
+				
+				</td>
+			</tr>
+		</c:if>	
 	</tbody>
 
 </table>
@@ -59,6 +74,8 @@
 <script>
 
 	$(document).ready(function(){
+		
+		
 		$("#list").on("click", function(e){
 			e.preventDefault();
 			fn_openBoardList();
@@ -68,6 +85,11 @@
 		$("#update").on("click", function(e){
 			e.preventDefault();
 			fn_openBoardUpdate();
+		})
+		
+		$('a[name="file"]').on("click", function(e){
+			e.preventDefault();
+			fn_downloadFile($(this));
 		})
 	
 	})
@@ -82,6 +104,20 @@
 		var idx="${map.IDX}";
 		var comSubmit = new ComSubmit();
 		comSubmit.setUrl("<c:url value='/sample/openBoardUpdate.do'/>");
+		comSubmit.addParam("IDX", idx);
+		comSubmit.submit();
+	}
+	
+	function fn_downloadFile(obj){
+		var idx = obj.parent().find("#IDX").val();
+		var comSubmit = new ComSubmit();
+		comSubmit.setUrl("<c:url value='/common/downloadFile.do'/>");
+		
+		if(gfn_isNull($("[name='IDX']").val())==false){
+			$("[name='IDX']").remove();
+			};
+		
+		
 		comSubmit.addParam("IDX", idx);
 		comSubmit.submit();
 	}

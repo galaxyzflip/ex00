@@ -66,6 +66,8 @@
 <script>
 
 	$(document).ready(function(){
+		
+		
 		$("#write").on("click", function(e){
 			e.preventDefault();
 			fn_openBoardWrite();

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -39,10 +40,10 @@ public class SampleController {
 	}
 	
 	@RequestMapping("insertBoard.do")
-	public ModelAndView insertBoard(CommandMap commandMap) throws Exception{
+	public ModelAndView insertBoard(CommandMap commandMap, HttpServletRequest request) throws Exception{
 		
 		ModelAndView mv = new ModelAndView("redirect:/sample/openBoardList.do");
-		sampleService.insertBoard(commandMap.getMap());
+		sampleService.insertBoard(commandMap.getMap(), request);
 		return mv;
 	}
 	
@@ -50,7 +51,9 @@ public class SampleController {
 	public ModelAndView openBoardDetail(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/sample/boardDetail");
 		Map<String, Object> map = sampleService.selectBoardDetail(commandMap.getMap());
-		mv.addObject("map", map);
+		
+		mv.addObject("list", map.get("list"));
+		mv.addObject("map", map.get("map"));
 		return mv; 
 	}
 	
@@ -59,6 +62,7 @@ public class SampleController {
 		ModelAndView mv = new ModelAndView("/sample/boardUpdate");
 		Map<String, Object> map = sampleService.selectBoardDetail(commandMap.getMap());
 		mv.addObject("map", map);
+		
 		return mv; 
 	}
 	

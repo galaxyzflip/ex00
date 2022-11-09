@@ -17,7 +17,7 @@ public class SampleDAO extends AbstractDAO{
 	}
 	
 	public void insertBoard(Map<String, Object> map) throws Exception{
-		insert("sample.insertBoard", map);
+		insert("sample.insertBoard", map); //map에 selectKey의 keyProperty가 저장된다.
 	}
 	
 	public void updateHitCnt(Map<String, Object> map) throws Exception{
@@ -34,6 +34,14 @@ public class SampleDAO extends AbstractDAO{
 	
 	public void deleteBoard(Map<String ,Object> map) throws Exception{
 		update("sample.deleteBoard", map);
+	}
+	
+	public void insertFile(Map<String, Object> map) throws Exception{
+		insert("sample.insertFile", map);
+	}
+	
+	public List<Map<String, Object>> selectFileList(Map<String, Object> map) throws Exception{
+		return (List<Map<String, Object>>) selectList("sample.selectFileList", map);
 	}
 	
 }
