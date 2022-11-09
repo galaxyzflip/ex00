@@ -38,9 +38,15 @@
 		</tbody>
 	</table>
 	
-	<input type="file" name="file"/>
-	<br><br>
+	<div id="fileDiv">
+		<p>
+			<input type="file" name="file_0"/>			
+			<a href="#this" class="btn" id="delete" name="delete">삭제</a>
+		</p>
+	</div>
 	
+	<br><br>
+	<a href="#this" class="btn" id="addFile">파일추가</a>
 	<a href="#this" class="btn" id="write">작성하기</a>
 	<a href="#this" class="btn" id="list">목록으로</a>
 
@@ -52,6 +58,8 @@
 
 
 <script>
+var fileNo = 1;
+
 $(document).ready(function(){
 	$('#list').on("click", function(e){
 		e.preventDefault();
@@ -61,6 +69,17 @@ $(document).ready(function(){
 	$('#write').on("click", function(e){
 		e.preventDefault();
 		fn_insertBoard();	
+	})
+	
+	$('#addFile').on("click", function(){
+		e.preventDefault();
+		fn_addFile();
+	})
+	
+	$('a[name="delete"]').on("click", function(e){
+		e.preventDefault();
+		fn_deleteFile($(this));
+		
 	})
 })
 
@@ -74,6 +93,23 @@ function fn_insertBoard(){
 	var comSubmit = new ComSubmit('frm');
 	comSubmit.setUrl("<c:url value='/sample/insertBoard.do'/>");
 	comSubmit.submit();
+}
+
+
+
+
+function fn_addFile(){
+	var str = "<p><input type='file' name='file_" + (fileNo++) + "'/><a href='#this' class='btn' name='delete'>삭제</a></p>";
+	$('#fileDiv').append(str);
+	
+	$('a[name="delete"]').on("click", function(e){
+		e.preventDefault();
+		fn_deleteFile($(this));
+	})
+}
+
+function fn_deleteFile(obj){
+	obj.parent().remove();
 }
 
 

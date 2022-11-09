@@ -88,7 +88,15 @@
 	}
 	
 	function fn_openBoardDetail(obj){
+		
 		var comSubmit = new ComSubmit();
+		
+		
+		if(gfn_isNull($("[name='IDX']").val())==false){
+			$("[name='IDX']").remove();
+			};
+			
+			
 		comSubmit.setUrl("<c:url value='/sample/openBoardDetail.do'/>");
 		comSubmit.addParam("IDX", obj.parent().find("#IDX").val());
 		comSubmit.submit();
