@@ -78,5 +78,28 @@
 		values(seq_tb_file_idx.nextval, #{BOARD_IDX}, #{ORIGINAL_FILE_NAME}, #{STORED_FILE_NAME}, #{FILE_SIZE}, 'Admin')
 	
 	</insert>
+	
+	
+	<update id="deleteFileList" parameterType="HashMap">
+	
+		update tb_file
+		set del_gb = 'Y'
+		where board_idx = #{IDX}
+	
+	
+	</update>
+	
+	<update id="updateFile" parameterType="HashMap">
+		update tb_file
+		set del_gb='N'
+		where idx=#{FILE_IDX}
+	</update>
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>

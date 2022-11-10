@@ -48,22 +48,35 @@ public class SampleServiceImpl implements SampleService{
 	public Map<String, Object> selectBoardDetail(Map<String, Object> map) throws Exception {
 
 		sampleDao.updateHitCnt(map);
-		Map<String, Object> tempMap = sampleDao.selectBoardDetail(map);
 		Map<String, Object> resultMap = new HashMap<>();
+		Map<String, Object> tempMap = sampleDao.selectBoardDetail(map);
 		resultMap.put("map", tempMap);
 		
 		List<Map<String, Object>> list = sampleDao.selectFileList(map);
 		resultMap.put("list", list);
 		
-		
-		
 		return resultMap;
 	}
 
 	@Override
-	public void updateBoard(Map<String, Object> map) throws Exception {
+	public void updateBoard(Map<String, Object> map, HttpServletRequest request) throws Exception {
 
 		sampleDao.updateBoard(map);
+		
+		sampleDao.deleteFileList(map);
+		
+		
+		List<Map<String, Object>> list = fileUtils.parseUpdateFileInfo(map, request);
+		Map<String, Object> tempMap = null;
+		
+		for(int i=0, size=list.size(); i<size; i++) {
+			tempMap = list.get(i);
+			if(tempMap.get("IS_NEW").equals("Y")) {
+				sampleDao.insertFile(tempMap);
+				
+			}else
+				sampleDao.updateFile(tempMap);
+		}
 	}
 
 	@Override

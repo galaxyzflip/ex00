@@ -60,26 +60,34 @@ public class SampleController {
 	@RequestMapping("openBoardUpdate.do")
 	public ModelAndView openBoardUpdate(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/sample/boardUpdate");
+		log.info(commandMap.toString());
 		Map<String, Object> map = sampleService.selectBoardDetail(commandMap.getMap());
-		mv.addObject("map", map);
+		mv.addObject("map", map.get("map"));
+		mv.addObject("list", map.get("list"));
+		log.info(map.toString());
 		
 		return mv; 
 	}
 	
 	
 	@RequestMapping("updateBoard.do")
-	public String updateBoard(CommandMap commandMap, Model model) throws Exception{
+	public String updateBoard(CommandMap commandMap, Model model, HttpServletRequest request) throws Exception{
 
-		sampleService.updateBoard(commandMap.getMap());
+		sampleService.updateBoard(commandMap.getMap(), request);
 		model.addAttribute("IDX", commandMap.get("IDX"));
 		return "redirect:/sample/openBoardDetail.do";
 	}
+	
+	
+	
 	@RequestMapping("deleteBoard.do")
 	public ModelAndView deleteBoard(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("redirect:/sample/openBoardList.do");
 		sampleService.deleteBoard(commandMap.getMap());
 		return mv;
 	}
+	
+	
 			
 	
 	

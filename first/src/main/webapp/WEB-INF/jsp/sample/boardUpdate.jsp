@@ -13,7 +13,7 @@
 
 
 
-<form id="frm">
+<form id="frm" name="frm" enctype="multipart/form-data">
 	<table class="board_view">
 		<colgroup>
 			<col width="15%">
@@ -54,6 +54,22 @@
 					<textarea rows="20" cols="100" title="내용" id="CONTENTS" name="CONTENTS">${map.CONTENTS }</textarea>
 				</td>
 			</tr>
+			
+			<tr>
+				<th scope="row">첨부파일</th>
+				<td colspan="3">
+					<div id="fileDiv">
+						<c:forEach var="row" items="${list }" varStatus='var'>
+							<p>
+								<input type="hidden" id="IDX" name="IDX_${var.index }" value="${row.IDX }">
+								<a href="#this" id="name_${var.index }" name="name_${var.index }">${row.ORIGINAL_FILE_NAME }</a>
+								<input type="file" id="file_${var.index }" name="file_${var.index }"> (${row.FILE_SIZE } KB)
+								<a href="#this" class="btn" id="delete_${var.index }" name="delete_${var.index }">삭제</a>
+							</p>
+						</c:forEach>
+					</div>
+				</td>
+			</tr>
 		
 		</tbody>
 		
@@ -61,6 +77,7 @@
 
 </form>
 
+<a href="#this" class="btn" id="addFile">파일추가</a>
 <a href="#this" class="btn" id="list">목록으로</a>
 <a href="#this" class="btn" id="update">저장하기</a>
 <a href="#this" class="btn" id="delete">삭제하기</a>
@@ -70,35 +87,71 @@
 
 <script>
 
+var fileNo = '${fn:length(list)+1}';
 
-	$(document).ready(function() {
-		$('.btn').on("click", function(e) {
-			e.preventDefault();
+$(document).ready(function(){
+	$('#list').on('click', function(e){
+        e.preventDefault();
+        fn_openBoardList();
+    })
 
-			var id = $(this).attr("id");
-			
-			var comSubmit;
-			
-			if(id == 'list'){
-				comSubmit = new ComSubmit();
-				comSubmit.setUrl("<c:url value='/sample/openBoardList.do'/>");
-				comSubmit.submit();
-				
-			}else if(id == 'update'){
-				comSubmit = new ComSubmit("frm");
-				comSubmit.setUrl("<c:url value='/sample/updateBoard.do'/>");
-				comSubmit.submit();
-				
-			}else if(id == 'delete'){
-				comSubmit = new ComSubmit();
-				comSubmit.setUrl("<c:url value='/sample/deleteBoard.do'/>");
-				comSubmit.addParam("IDX", $("#IDX").val());
-				comSubmit.submit();
-			}
+    $("#update").on('click', function(e){
+        e.preventDefault();
+        fn_updateBoard();
+    })
 
-		})
+    $('#delete').on('click', function(e){
+        e.preventDefault();
+        fn_deleteBoard();
+    })
 
-	})
+    $('#addFile').on("click", function(e){
+        e.preventDefault();
+        fn_addFile();
+    })
+
+    $("a[name^='delete']").on('click', function(e){
+        e.preventDefault();
+        fn_deleteFile($(this));
+    })
+})
+
+
+function fn_openBoardList(){
+    var comSubmit = new ComSubmit();
+    comSubmit.setUrl("<c:url value='/sample/openBoardList.do'/>");
+    comSubmit.submit();
+}
+
+function fn_updateBoard(){
+    var comSubmit = new ComSubmit("frm");
+    comSubmit.setUrl("<c:url value='/sample/updateBoard.do'/>");
+    comSubmit.submit();
+}
+
+function fn_deleteBoard(){
+    var comSubmit = new ComSubmit();
+    comSubmit.setUrl("<c:url value='/sample/deleteBoard.do'/>");
+    comSubmit.submit();
+}
+
+function fn_addFile(){
+    var str = "<p><input type='file' id='file_" + (fileNo) + "' name='file_" + (fileNo) + "'>"
+        + "<a href='#this' class='btn' id='delete_" + (fileNo) + "' name='delete_" + (fileNo) + "'>삭제</a></P>";
+
+    $('#fileDiv').append(str);
+
+    $('#delete_'+(fileNo++)).on('click', function(e){
+        e.preventDefault();
+        fn_deleteFile($(this));
+    })
+
+}
+
+function fn_deleteFile(obj){
+    obj.parent().remove();
+}
+
 </script>
 
 

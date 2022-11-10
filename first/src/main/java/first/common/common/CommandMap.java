@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import lombok.ToString;
+
+
+@ToString
 public class CommandMap {
 
 	Map<String, Object> map = new HashMap<>();

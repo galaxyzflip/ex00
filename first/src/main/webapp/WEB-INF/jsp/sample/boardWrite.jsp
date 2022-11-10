@@ -71,7 +71,7 @@ $(document).ready(function(){
 		fn_insertBoard();	
 	})
 	
-	$('#addFile').on("click", function(){
+	$('#addFile').on("click", function(e){
 		e.preventDefault();
 		fn_addFile();
 	})

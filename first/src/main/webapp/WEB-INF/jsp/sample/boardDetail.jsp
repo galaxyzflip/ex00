@@ -55,7 +55,7 @@
 	
 					<c:forEach var="row" items="${list }">
 						<input type="hidden" id="IDX" value="${row.IDX }">
-						<a href="#this" name="file">${row.ORIGINAL_FILE_NAME }</a> (${ros.FILE_SIZE }KB)
+						<a href="#this" name="file">${row.ORIGINAL_FILE_NAME }</a> (${row.FILE_SIZE }KB)
 					
 					</c:forEach>
 				
@@ -112,11 +112,6 @@
 		var idx = obj.parent().find("#IDX").val();
 		var comSubmit = new ComSubmit();
 		comSubmit.setUrl("<c:url value='/common/downloadFile.do'/>");
-		
-		if(gfn_isNull($("[name='IDX']").val())==false){
-			$("[name='IDX']").remove();
-			};
-		
 		
 		comSubmit.addParam("IDX", idx);
 		comSubmit.submit();
