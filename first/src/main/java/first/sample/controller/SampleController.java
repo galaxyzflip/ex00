@@ -1,6 +1,5 @@
 package first.sample.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -12,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import first.common.common.CommandMap;
 import first.sample.service.SampleService;
 
@@ -28,9 +28,11 @@ public class SampleController {
 	public ModelAndView openBoardList(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/sample/boardList");
 		
-		List<Map<String, Object>> list = sampleService.selectBoardList(commandMap.getMap());
-		mv.addObject("list", list);
+		Map<String, Object> resultMap = sampleService.selectBoardList(commandMap.getMap());
 		
+		mv.addObject("paginationInfo", (PaginationInfo)resultMap.get("paginationInfo"));
+		
+		mv.addObject("list", resultMap.get("result"));
 		return mv;
 	}
 	

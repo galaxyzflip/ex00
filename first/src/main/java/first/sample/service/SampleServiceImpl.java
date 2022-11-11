@@ -25,8 +25,13 @@ public class SampleServiceImpl implements SampleService{
 	@Resource(name="sampleDAO")
 	private SampleDAO sampleDao;
 
+//	@Override
+//	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception {
+//		return sampleDao.selectBoardList(map);
+//	}
+	
 	@Override
-	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception {
+	public Map<String, Object> selectBoardList(Map<String, Object> map) throws Exception{
 		return sampleDao.selectBoardList(map);
 	}
 
@@ -84,5 +89,6 @@ public class SampleServiceImpl implements SampleService{
 
 		sampleDao.deleteBoard(map);
 	}
+
 
 }

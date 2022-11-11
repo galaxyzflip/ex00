@@ -4,11 +4,31 @@
 
 <mapper namespace="sample">
 
-	<select id="selectBoardList" parameterType="HashMap" resultType="HashMap">
+	<!-- <select id="selectBoardList" parameterType="HashMap" resultType="HashMap">
 		select idx, title, hit_cnt, crea_dtm
 		from tb_board
 		where del_gb = 'N'
 		order by idx desc	
+	</select> -->
+	
+	
+	<select id="selectBoardList" parameterType="HashMap" resultType="HashMap">
+	
+	<include refid="common.pagingPre"/>
+	
+		select
+			row_number() over(order by idx desc) rnum,
+			idx,
+			title,
+			hit_cnt,
+			crea_dtm
+		from 
+			tb_board
+		where
+			del_gb = 'N'
+	
+	<include refid="common.pagingPost"/>
+	
 	</select>
 	
 	

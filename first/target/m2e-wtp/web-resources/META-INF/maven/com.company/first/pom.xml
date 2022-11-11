@@ -281,7 +281,7 @@
 		<dependency>
 			<groupId>egovframework.rte</groupId>
 			<artifactId>egovframework.rte.ptl.mvc</artifactId>
-			<version>3.5.0</version>
+			<version>2.7.0</version>
 		</dependency>
 
 		<!-- Log4j -->

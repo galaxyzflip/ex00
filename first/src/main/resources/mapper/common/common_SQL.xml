@@ -11,4 +11,34 @@
 </select>
 
 
+<sql id="pagingPre">
+
+	select
+		aaa.*
+	
+	from(
+		select
+			count(1) over() as total_count,
+			aa.*
+		
+		from(
+
+</sql>
+
+
+<sql id="pagingPost">
+
+		) aa
+	) aaa
+	
+	where 
+		aaa.rnum between #{START} and #{END}
+
+
+</sql>
+
+
+
+
+
 </mapper>
