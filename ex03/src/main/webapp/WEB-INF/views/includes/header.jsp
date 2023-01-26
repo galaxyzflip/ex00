@@ -4,12 +4,10 @@
 <html lang="en">
 
 <head>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
-	<script src="https://ajax.gogleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	
-	
-	
 	                                 <!-- jQuery -->
 	<!--     <script src="/resources/vendor/jquery/jquery.min.js"></script> -->
 

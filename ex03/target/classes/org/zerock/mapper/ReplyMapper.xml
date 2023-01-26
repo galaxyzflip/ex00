@@ -37,11 +37,11 @@
 	<select id="getListWithPaging" resultType="org.zerock.domain.ReplyVO">
 	
 		<![CDATA[
-			select rno, bno, reply, replyer, replydate, updatedate
+			select rno, bno, reply, replyer, reply_date, updatedate
 			from
 				(
 					select /*+ index(tbl_reply idx_reply) */
-						rownum rn, rno, bno, reply, replyer, replyDate, updatedate
+						rownum rn, rno, bno, reply, replyer, reply_date, updatedate
 					from tbl_reply
 					where bno = #{bno}
 					and rno > 0
@@ -54,11 +54,11 @@
 		<select id="getListWithPaging2" resultType="org.zerock.domain.ReplyVO">
 	
 		<![CDATA[
-			select rno, bno, reply, replyer, replydate, updatedate
+			select rno, bno, reply, replyer, reply_date, updatedate
 			from
 				(
 					select /*+ index(tbl_reply idx_reply) */
-						rownum rn, rno, bno, reply, replyer, replyDate, updatedate
+						rownum rn, rno, bno, reply, replyer, reply_date, updatedate
 					from tbl_reply
 					where bno = #{bno}
 					and rno > 0

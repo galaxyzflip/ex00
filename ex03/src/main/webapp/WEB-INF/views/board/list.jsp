@@ -43,17 +43,17 @@
 					
 					<tr>
 						<td><c:out value="${board.bno }"/></td>
-						
-						
-						<%-- <td><a class='move' href='/board/get?bno=<c:out value="${board.bno }"/>' >
-							<c:out value="${board.title}"/></a></td> --%>
+						<td>
+							<a class='move' href='<c:out value="${board.bno }"/>' >
+							<c:out value="${board.title}"/>
+							
+							<c:if test="${board.replyCnt > 0}">
+								<b>[<c:out value="${board.replyCnt }"/>]</b>
+							</c:if>
 							
 							
-						<td><a class='move' href='<c:out value="${board.bno }"/>' >
-							<c:out value="${board.title}"/></a></td>
-							
-							
-							
+							</a>
+						</td>
 						<td><c:out value="${board.writer }"/></td>
 						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate }"/></td>
 						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.updatedate }"/></td>
@@ -144,8 +144,8 @@
 							
 							<div class="modal-body">처리가 완료되었습니다.</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="model">Close</button>
-								<button type="button" class="btn btn-primary">Save changes</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary" style="display: none;">Save changes</button>
 							</div>	
 							
 						</div>
@@ -167,6 +167,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	var result = '<c:out value="${result}"/>';
+	
+	
 	
 	
 	checkModal(result);
@@ -201,6 +203,7 @@ $(document).ready(function(){
 		console.log('click');
 		
 		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		actionForm.attr("action", "/board/list");
 		actionForm.submit();
 		
 	});
